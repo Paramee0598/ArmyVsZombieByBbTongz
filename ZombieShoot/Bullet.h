@@ -19,18 +19,18 @@ private:
 	float m_BulletSpeed = 1000;
 
 	// เเกนX Y
-	float m_BulletDistanceX;
-	float m_BulletDistanceY;
+	float m_BulletDistanceX =0;
+	float m_BulletDistanceY = 0;
 
 	// กระสุน ตอนนี้
-	float m_XTarget;
-	float m_YTarget;
+	float m_XTarget = 0;
+	float m_YTarget = 0;
 
 	// จำกัดระยะ
-	float m_MaxX;
-	float m_MinX;
-	float m_MaxY;
-	float m_MinY;
+	float m_MaxX = 0;
+	float m_MinX = 0;
+	float m_MaxY = 0;
+	float m_MinY = 0;
 
 	
 public:

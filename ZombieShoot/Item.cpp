@@ -53,7 +53,7 @@ void Item::spawn()
 	int y = (rand() % m_Arena.height);
 
 	
-	m_Spawned = false; 
+	m_Spawned = true; 
 	m_SecondsSinceSpawn = 0;
 	
 
@@ -115,11 +115,11 @@ void Item::upgrade()
 {
 	if (m_Type == 1)
 	{
-		m_Value += (HEALTH_START_VALUE * .5);
+		m_Value += (HEALTH_START_VALUE * .5f);
 	}
 	else
 	{
-		m_Value += (AMMO_START_VALUE * .5);
+		m_Value += (AMMO_START_VALUE * .5f);
 	}
 
 	//การอยู่นานของไอเทม กับ หายไป

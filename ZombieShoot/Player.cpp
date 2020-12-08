@@ -179,7 +179,7 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 	}
 
 	// คิดรัศมีการหมุน
-	float angle = (atan2(mousePosition.y - m_Resolution.y / 2,mousePosition.x - m_Resolution.x / 2)* 180) / 3.141;
+	float angle = (atan2(static_cast<float>(mousePosition.y) - m_Resolution.y / 2,static_cast<float>(mousePosition.x) - m_Resolution.x / 2)* 180) / 3.141;
 
 	m_Sprite.setRotation(angle);
 }
@@ -187,13 +187,13 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 void Player::upgradeSpeed()//เพิ่มความเร็ว
 {
 	// เพิ่มความเร็ว 20% 
-	m_Speed += (START_SPEED * .2);
+	m_Speed += (START_SPEED * .2f);
 }
 
 void Player::upgradeHealth()//เพิ่มเลือด
 {
 	// เพิ่มขีดจำกัดเลือด 20% 
-	m_MaxHealth += (START_HEALTH * .2);
+	m_MaxHealth += (START_HEALTH * .2f);
 
 }
 

@@ -53,9 +53,10 @@ int main()
 	Texture textureBackground = TextureHolder::GetTexture(
 		"graphics/background_sheet11.png");
 
-
+	// zombies
 	int numZombies;
 	int numZombiesAlive;
+	Zombie* zombies = NULL;
 	
 
 	// ค่ากระสุน
@@ -86,15 +87,15 @@ int main()
 
 	// หน้า home  พื้นหลัง
 	Sprite spriteGameOver;
-	Texture textureGameOver = TextureHolder::GetTexture("graphics/SjAw8B.jpg");
+	Texture textureGameOver = TextureHolder::GetTexture("graphics/SjAw8B5.jpg");
 	spriteGameOver.setTexture(textureGameOver);
-	spriteGameOver.setPosition(150, 100);
+	spriteGameOver.setPosition(0, 0);
 
 	//หน้า level up
 	Sprite spriteLevelUp;
 	Texture textureLevelUp = TextureHolder::GetTexture("graphics/leup.jpg");
 	spriteLevelUp.setTexture(textureLevelUp);
-	spriteLevelUp.setPosition(100, 50);
+	spriteLevelUp.setPosition(0, 0);
 
 	// view
 	View hudView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -121,17 +122,24 @@ int main()
 	Text pausedText;
 	pausedText.setFont(font);
 	pausedText.setCharacterSize(155);
-	pausedText.setFillColor(Color::White);
+	pausedText.setFillColor(Color::Green);
 	pausedText.setPosition(400, 400);
-	pausedText.setString("Press  Space \nto continue");
+	pausedText.setString("Press  Space \nto Continue or\nPress  Space to Exit ");
 
 	// หน้า Levelling up
 	Text levelUpText;
 	levelUpText.setFont(font);
 	levelUpText.setCharacterSize(80);
-	levelUpText.setFillColor(Color::White);
+	levelUpText.setFillColor(Color::Green);
 	levelUpText.setPosition(150, 250); //ตำแหน่งตัวอักษร
 	std::stringstream levelUpStream;
+	levelUpStream <<
+		"   (1) --> + rate of fire" <<
+		"\n   (2) --> + clip size(next reload)" <<
+		"\n   (3) --> + max health" <<
+		"\n   (4) --> + run speed" <<
+		"\n   (5) --> + health pickups";
+	levelUpText.setString(levelUpStream.str());
 	
 
 	// Ammo
@@ -195,7 +203,7 @@ int main()
 
 	// แถบเลือด
 	RectangleShape healthBar;
-	healthBar.setFillColor(Color::Black);
+	healthBar.setFillColor(Color::Red);
 	healthBar.setPosition(800, 980);
 
 	
@@ -254,11 +262,15 @@ int main()
 	startGame.setBuffer(startGameBuffer);
 
 	Music musicHomeGame;
+	musicHomeGame.setLoop(true);
 	musicHomeGame.openFromFile("sound/ShooterZombieArmy.wav");
 	musicHomeGame.play();
 
 	Music musicInGame;
+	musicInGame.setLoop(true);
 	musicInGame.openFromFile("sound/ZombieInGame.wav");
+	musicInGame.setVolume(40.f);
+
 	
 
 
@@ -268,10 +280,7 @@ int main()
 		// เริ่มมมมมมมมมมมมมมมมมม
 
 		// player กับ เกม
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
-		{
-			window.close();
-		}
+		
 
 
 		Event event;
@@ -281,17 +290,18 @@ int main()
 			if (event.type == Event::KeyPressed)
 			{
 				// หยุดเกมตอนเล่น  ///
-				if (event.key.code == Keyboard::Space &&
+				if (event.key.code == Keyboard::P &&
 					state == State::PLAYING) // *****4.***ถ้ากดทันตอนแรกเข้าเกมน่าจะบัคตรงนี้
 
 				{
 					musicInGame.pause();
 					musicHomeGame.play();
 					state = State::PAUSED;
+
 				}
 
 				// รีดฟรมตอนหยุด เล่นต่อ
-				else if (event.key.code == Keyboard::Space &&
+				else if (event.key.code == Keyboard::P &&
 					state == State::PAUSED)
 				{
 					musicInGame.play();
@@ -305,6 +315,7 @@ int main()
 				{
 					state = State::LEVELING_UP;
 					wave = 0;
+					lastScore = score;
 					score = 0;
 
 					// เกมจบจะเซทตามนี้
@@ -436,6 +447,11 @@ int main()
 		if (state == State::LEVELING_UP)
 		{
 			musicInGame.pause();
+			if ((wave ==0 )&& (score ==0))
+			{
+			
+				state = State::PLAYING;
+			}
 			// Handle the player levelling up
 			if (event.key.code == Keyboard::Num1)
 			{
@@ -470,12 +486,6 @@ int main()
 				healthPickup.upgrade();
 				state = State::PLAYING;
 			}
-			//เพิ่มการสุ่มไอเท็มกระสุน
-			if (event.key.code == Keyboard::Num6)
-			{
-				ammoPickup.upgrade();
-				state = State::PLAYING;
-			}
 			// มาด่าน
 			if (state == State::PLAYING) //5.ยังเซ็ทอยู่
 			{
@@ -499,10 +509,13 @@ int main()
 				ammoPickup.setArena(arena);
 
 				// สร้าง zombies //กี่ตัวๆ ///////////////////////////////////////////////////////////////////////////////////
-				numZombies = 0 * wave;
+				numZombies = 5 * wave;
 
 				
-				
+				// //////////////////////////////////////////////////////////
+				delete[] zombies;
+				zombies = createHorde(numZombies, arena);
+				numZombiesAlive = numZombies;
 				
 				numZombiesAlive = numZombies;
 
@@ -512,7 +525,7 @@ int main()
 
 				clock.restart();
 			}
-		}// End levelling up
+		}//Level
 
 
 		 ////////***////*
@@ -547,6 +560,15 @@ int main()
 
 			mainView.setCenter(player.getCenter());
 
+			//////////////////////////////////////////////////////////////////////
+			for (int i = 0; i < numZombies; i++)
+			{
+				if (zombies[i].isAlive())
+				{
+					zombies[i].update(dt.asSeconds(), playerPosition);
+				}
+			}
+
 			
 
 			// กระสุนวิ่ง
@@ -568,13 +590,67 @@ int main()
 			{
 				for (int j = 0; j < numZombies; j++)
 				{
-					if (bullets[i].isInFlight()  )
+					if (bullets[i].isInFlight() &&
+						zombies[j].isAlive())
 					{
-						
+						if (bullets[i].getPosition().intersects
+						(zombies[j].getPosition()))
+						{
+							// Stop the bullet
+							bullets[i].stop();
+
+							//  kill 
+							if (zombies[j].hit()) {
+								// die
+								score += 10;
+								
+								if (score >= hiScore)
+								{
+									hiScore = score;
+								}
+
+								numZombiesAlive--;
+
+								// zombies are dead 
+								if (numZombiesAlive == 0) {
+									state = State::LEVELING_UP;
+								}
+							}
+							
+
+							
+							splat.play(); ///เสียงโดน
+
+						}
 					}
 
 				}
-			}///////////////////////////
+			}// End zombie being shot
+
+			// Have any zombies touched the player			
+			for (int i = 0; i < numZombies; i++)
+			{
+				if (player.getPosition().intersects
+				(zombies[i].getPosition()) && zombies[i].isAlive())
+				{
+
+					if (player.hit(gameTimeTotal))
+					{
+						// More here later
+						hit.play();
+					}
+
+					if (player.getHealth() <= 0)
+					{
+						state = State::GAME_OVER;
+						lastScore = score;/////////////////////////////////////////////////////////
+						std::ofstream outputFile("gamedata/scores.txt");
+						outputFile << hiScore;
+						outputFile.close();
+
+					}
+				}
+			}// /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			
 
@@ -658,7 +734,19 @@ int main()
 			// background
 			window.draw(background, &textureBackground);
 
-			
+			// Draw the zombies
+			for (int i = 0; i < numZombies; i++)///////////////////////////////////////////////////////////////////
+			{
+				window.draw(zombies[i].getSprite());
+			}
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (bullets[i].isInFlight())
+				{
+					window.draw(bullets[i].getShape());
+				}
+			}
 
 			// player
 			window.draw(player.getSprite());
@@ -682,9 +770,9 @@ int main()
 
 			window.draw(spriteAmmoIcon);
 			window.draw(ammoText);
-			window.draw(scoreText);
 			window.draw(hiScoreText);
 			window.draw(lastScoreText);
+			window.draw(scoreText);
 			window.draw(healthBar);
 			window.draw(waveNumberText);
 			window.draw(zombiesRemainingText);
@@ -692,16 +780,26 @@ int main()
 
 		if (state == State::LEVELING_UP)
 		{
+            musicInGame.pause();
             musicHomeGame.play();
 			window.draw(spriteLevelUp);
 			window.draw(levelUpText);
+			window.draw(scoreText);
+			window.draw(hiScoreText);
+			window.draw(lastScoreText);
+			
+			
 			
 		}
 
 		if (state == State::PAUSED)
 		{
-			
+			if (Keyboard::isKeyPressed(Keyboard::Escape))
+			{
+				window.close();
+			}
 			window.draw(pausedText);
+
 			
 		}
 
