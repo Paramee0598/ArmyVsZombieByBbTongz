@@ -9,8 +9,8 @@ private:
 	//เก็บมาแล้ว เพิ่มเท่าไร
 	const int HEALTH_START_VALUE = 50;
 	const int AMMO_START_VALUE = 12;
-	const int START_WAIT_TIME = 10;
-	const int START_SECONDS_TO_LIVE = 5;
+	const int START_WAIT_TIME = 6;
+	const int START_SECONDS_TO_LIVE = 10;
 
 	//ตัวเกิด
 	Sprite m_Sprite;

@@ -52,7 +52,7 @@ void Zombie::spawn(float startX, float startY, int type, int seed)
 	m_Position.x = startX;
 	m_Position.y = startY;
 
-	m_Sprite.setOrigin(25, 25);
+	m_Sprite.setOrigin(20.f, 20.f);
 	m_Sprite.setPosition(m_Position);
 }
 
@@ -66,6 +66,7 @@ bool Zombie::hit()
 		m_Alive = false;
 		m_Sprite.setTexture(TextureHolder::GetTexture(
 			"graphics/blood.png"));
+		
 
 		return true;
 	}

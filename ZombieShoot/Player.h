@@ -7,7 +7,7 @@ class Player
 {
 private:
 	const float START_SPEED = 200; //การเลื่อนplayer
-	const float START_HEALTH = 100; //เลือด
+	const float START_HEALTH = 150; //เลือด
 
 	
 	Vector2f m_Position;
