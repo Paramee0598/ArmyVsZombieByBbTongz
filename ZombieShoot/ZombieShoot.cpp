@@ -282,7 +282,7 @@ int main()
 	beforeGameOverText.setOutlineColor(sf::Color::White);
 	beforeGameOverText.setOutlineThickness(2);
 	beforeGameOverText.setPosition(300, 400);
-	beforeGameOverText.setString("GAME OVER \n\n   Press  |C| \nto Continue  ");
+	beforeGameOverText.setString("GAME OVER \n   Press  |C| \nto Continue  ");
 
 
 
@@ -568,7 +568,7 @@ int main()
 	ZombieDeadBuffer.loadFromFile("sound/fileSound/soundZombieDie.wav");
 	Sound ZombieDead;
 	ZombieDead.setBuffer(ZombieDeadBuffer);
-	ZombieDead.setVolume(40.f);
+	ZombieDead.setVolume(55.f);
 
 	// เสียงตอนโดนตี
 	SoundBuffer hitBuffer;
@@ -593,32 +593,32 @@ int main()
 	splatBuffer2.loadFromFile("sound/fileSound/soundZombie.wav");
 	Sound splat2;
 	splat2.setBuffer(splatBuffer2);
-	splat2.setVolume(40.f);
+	splat2.setVolume(55.f);
 
 	SoundBuffer splatBuffer3;
 	splatBuffer3.loadFromFile("sound/fileSound/soundZombie2.wav");
 	Sound splat3;
 	splat3.setBuffer(splatBuffer3);
-	splat3.setVolume(40.f);
+	splat3.setVolume(55.f);
 
 	SoundBuffer splatBuffer4;
 	splatBuffer4.loadFromFile("sound/fileSound/zombieDead.wav");
 	Sound splat4;
 	splat4.setBuffer(splatBuffer4);
-	splat4.setVolume(40.f);
+	splat4.setVolume(55.f);
 	// เสียงตอนยิง
 	SoundBuffer shootBuffer;
 	shootBuffer.loadFromFile("sound/shoot.wav");
 	Sound shoot;
 	shoot.setBuffer(shootBuffer);
-	shoot.setVolume(40.f);
+	shoot.setVolume(55.f);
 
 	// เสียงรีโหลด
 	SoundBuffer reloadBuffer;
 	reloadBuffer.loadFromFile("sound/reload1.wav");
 	Sound reload;
 	reload.setBuffer(reloadBuffer);
-	reload.setVolume(40.f);
+	reload.setVolume(55.f);
 
 	// เสียงตอนหมด
 	SoundBuffer reloadFailedBuffer;
@@ -638,7 +638,7 @@ int main()
 	startGameBuffer.loadFromFile("sound/counterStrike.wav");
 	Sound startGame;
 	startGame.setBuffer(startGameBuffer);
-	startGame.setVolume(30.f);
+	startGame.setVolume(55.f);
 
 	Music musicHomeGame;
 	musicHomeGame.setLoop(true);
@@ -649,7 +649,7 @@ int main()
 	Music musicInGame;
 	
 	musicInGame.openFromFile("sound/ZombieInGame.wav");
-	musicInGame.setVolume(15.f);
+	musicInGame.setVolume(20.f);
 	musicInGame.setLoop(true);
 	musicInGame.getLoop();
 	musicInGame.stop();
