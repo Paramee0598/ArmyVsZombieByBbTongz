@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "TextureHolder.h"
 
+
+
 Player::Player()
 {
 	m_Speed = START_SPEED;
@@ -54,6 +56,7 @@ bool Player::hit(Time timeHit)
 {
 	if (timeHit.asMilliseconds() - m_LastHit.asMilliseconds() > 200)// 2 tenths of second
 	{
+		
 		m_LastHit = timeHit;
 		m_Health -= 10;
 		return true;
@@ -186,14 +189,14 @@ void Player::update(float elapsedTime, Vector2i mousePosition)
 
 void Player::upgradeSpeed()//เพิ่มความเร็ว
 {
-	// เพิ่มความเร็ว 20% 
-	m_Speed += (START_SPEED * .2f);
+	// เพิ่มความเร็ว 10% 
+	m_Speed += (START_SPEED * .1f);
 }
 
 void Player::upgradeHealth()//เพิ่มเลือด
 {
-	// เพิ่มขีดจำกัดเลือด 20% 
-	m_MaxHealth += (START_HEALTH * .2f);
+	// เพิ่มขีดจำกัดเลือด 10% 
+	m_MaxHealth += (START_HEALTH * .1f);
 
 }
 

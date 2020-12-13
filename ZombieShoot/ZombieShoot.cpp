@@ -29,7 +29,7 @@ int main()
 	TextureHolder Main;
 
 	// สถานะเกม ใน State หยุดได้ อัพเวล จบเกม เล่น
-	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING ,FRIST_GAME,HIGH_SCORE};
+	enum class State { PAUSED, LEVELING_UP, GAME_OVER, PLAYING ,FRIST_GAME,HIGH_SCORE,HOW_TO_PLAY,BEFORE_OVER};
 	// สถานะไหนตอนเริ่ม
 
 	State state = State::FRIST_GAME; // 1.ตอนเริ่ม state จะเป็นดังนี้
@@ -41,7 +41,7 @@ int main()
 	resolution.y = VideoMode::getDesktopMode().height; //สูง
 
 	RenderWindow window(VideoMode(resolution.x, resolution.y),
-		"Zombie Army Shooter", Style:: Fullscreen);/////////////////////////////////////////
+		"Zombie Army : DEAD LAB", Style:: Fullscreen);/////////////////////////////////////////
 
 	// view
 	View mainView(sf::FloatRect(0, 0, resolution.x, resolution.y));
@@ -63,7 +63,7 @@ int main()
 
 	// Load ground 
 	Texture textureBackground = TextureHolder::GetTexture(
-		"graphics/background_sheet11.png");
+		"graphics/background_sheetReal.png");
 
 	// zombies
 	int numZombies;
@@ -71,7 +71,7 @@ int main()
 	Zombie* zombies = NULL;
 	
 
-	// ค่ากระสุน
+	// กระสุน
 	Bullet bullets[100];
 	int currentBullet = 0;
 	int bulletsSpare = 24;
@@ -113,6 +113,30 @@ int main()
 	spriteGameOver.setTexture(textureGameOver);
 	spriteGameOver.setPosition(0, 0);
 
+	// หน้า howToPlay
+	Sprite Howplay;
+	Texture texturespriteHowplay = TextureHolder::GetTexture("graphics/howplay.jpg");
+	Howplay.setTexture(texturespriteHowplay);
+	Howplay.setPosition(0, 0);
+
+	// หน้า frist
+	Sprite spriteFrist;
+	Texture texturespriteFrist = TextureHolder::GetTexture("graphics/frist.png");
+	spriteFrist.setTexture(texturespriteFrist);
+	spriteFrist.setPosition(0, 0);
+
+	// Logo
+	Sprite spriteLogo;
+	Texture textureLogo = TextureHolder::GetTexture("graphics/logo.png");
+	spriteLogo.setTexture(textureLogo);
+	spriteLogo.setPosition(585, 15);
+
+	// หน้า score  
+	Sprite spriteScoreBoard;
+	Texture textureScoreBoard = TextureHolder::GetTexture("graphics/ScoreS.png");
+	spriteScoreBoard.setTexture(textureScoreBoard);
+	spriteScoreBoard.setPosition(0, 0);
+
 	//หน้า level up
 	Sprite spriteLevelUp;
 	Texture textureLevelUp = TextureHolder::GetTexture("graphics/leup.jpg");
@@ -128,17 +152,116 @@ int main()
 	spriteAmmoIcon.setTexture(textureAmmoIcon);
 	spriteAmmoIcon.setPosition(1650, 973);
 
+	//  sprite WASD
+	Sprite spriteWASD;
+	Texture textureWASD = TextureHolder::GetTexture("graphics/howToPlay.png");
+	spriteWASD.setTexture(textureWASD);
+	spriteWASD.setPosition(450, 355);
+
+	//  sprite R
+	Sprite spriteR;
+	Texture textureR = TextureHolder::GetTexture("graphics/mouse.png");
+	spriteR.setTexture(textureR);
+	spriteR.setPosition(440, 705);
+
+	
+
+
 	// Load font
 	Font font;
 	font.loadFromFile("fonts/youmurdererbb.ttf");
+
+	// คนสร้าง
+	Text tong;
+	tong.setFont(font);
+	tong.setCharacterSize(55);
+	tong.setFillColor(Color::White);
+	tong.setOutlineColor(sf::Color::Magenta);
+	tong.setOutlineThickness(1);
+	tong.setPosition(665, 1000);
+	tong.setString("MR.Paramee Chumsri  63010598");
+
 
 	// Game Over
 	Text gameOverText;
 	gameOverText.setFont(font);
 	gameOverText.setCharacterSize(125);
-	gameOverText.setFillColor(Color::White);
-	gameOverText.setPosition(250, 850);
-	gameOverText.setString("Press | T | to play games");
+	gameOverText.setFillColor(Color::Yellow);
+	gameOverText.setOutlineColor(sf::Color::Black);
+	gameOverText.setOutlineThickness(8);
+	gameOverText.setPosition(250, 650);
+	gameOverText.setString(" | T | - play games");
+
+	// viewScoreBoard
+	Text viewScoreBoardText;
+	viewScoreBoardText.setFont(font);
+	viewScoreBoardText.setCharacterSize(125);
+	viewScoreBoardText.setFillColor(Color::Yellow);
+	viewScoreBoardText.setOutlineColor(sf::Color::Black);
+	viewScoreBoardText.setOutlineThickness(8);
+	viewScoreBoardText.setPosition(250, 850);
+	viewScoreBoardText.setString(" | U | - Score Board");
+
+	// SCOREBOARD
+	Text SCOREBOARDText;
+	SCOREBOARDText.setFont(font);
+	SCOREBOARDText.setCharacterSize(125);
+	SCOREBOARDText.setFillColor(Color::Green);
+	SCOREBOARDText.setOutlineColor(sf::Color::White);
+	SCOREBOARDText.setOutlineThickness(4);
+	SCOREBOARDText.setPosition(78, 25);
+	SCOREBOARDText.setString("ScoreBoard");
+
+	// HOWTOPLAY
+	Text HOWTOPLAYText;
+	HOWTOPLAYText.setFont(font);
+	HOWTOPLAYText.setCharacterSize(125);
+	HOWTOPLAYText.setFillColor(Color::White);
+	HOWTOPLAYText.setOutlineColor(sf::Color::Red);
+	HOWTOPLAYText.setOutlineThickness(4);
+	HOWTOPLAYText.setPosition(78, 25);
+	HOWTOPLAYText.setString("How To Play");
+
+	
+	// welcome
+	Text welcomeText;
+	welcomeText.setFont(font);
+	welcomeText.setCharacterSize(75);
+	welcomeText.setFillColor(Color::Black);
+	welcomeText.setOutlineColor(sf::Color::Red);
+	welcomeText.setOutlineThickness(1);
+	welcomeText.setPosition(810, 365);
+	welcomeText.setString("WELCOME...");
+
+	// esc
+	Text escText;
+	escText.setFont(font);
+	escText.setCharacterSize(55);
+	escText.setFillColor(Color::Yellow);
+	escText.setOutlineColor(sf::Color::Black);
+	escText.setOutlineThickness(8);
+	escText.setPosition(20, 1000);
+	escText.setString(" | Esc | - Exit");
+
+	// HowtoplayInGame
+	Text HowtoplayInGame;
+	HowtoplayInGame.setFont(font);
+	HowtoplayInGame.setCharacterSize(55);
+	HowtoplayInGame.setFillColor(Color::White);
+	HowtoplayInGame.setOutlineColor(sf::Color::Red);
+	HowtoplayInGame.setOutlineThickness(3);
+	HowtoplayInGame.setPosition(865, 340);
+	HowtoplayInGame.setString(" |W| - Move to the top\n |A| - Move to the Left\n |S| - Move to the Down\n |D| - Move to the Right\n |R| - Reload\n\n\n\n |Left Mouse| - Shoot");
+
+	// HowToPlay
+	Text howToPlayText;
+	howToPlayText.setFont(font);
+	howToPlayText.setCharacterSize(125);
+	howToPlayText.setFillColor(Color::Yellow);
+	howToPlayText.setOutlineColor(sf::Color::Black);
+	howToPlayText.setOutlineThickness(8);
+	howToPlayText.setPosition(250, 750);
+	howToPlayText.setString(" | O | - How to play");
 
 
 	// หยุด
@@ -146,39 +269,61 @@ int main()
 	pausedText.setFont(font);
 	pausedText.setCharacterSize(155);
 	pausedText.setFillColor(Color::Green);
+	pausedText.setOutlineColor(sf::Color::White);
+	pausedText.setOutlineThickness(2);
 	pausedText.setPosition(400, 400);
 	pausedText.setString("Press  |P| \nto Continue or\nPress  |Esc| to Exit ");
+
+	// หยุด
+	Text beforeGameOverText;
+	beforeGameOverText.setFont(font);
+	beforeGameOverText.setCharacterSize(155);
+	beforeGameOverText.setFillColor(Color::Green);
+	beforeGameOverText.setOutlineColor(sf::Color::White);
+	beforeGameOverText.setOutlineThickness(2);
+	beforeGameOverText.setPosition(300, 400);
+	beforeGameOverText.setString("GAME OVER \n\n   Press  |C| \nto Continue  ");
+
+
 
 	// หน้า Levelling up
 	Text levelUpText;
 	levelUpText.setFont(font);
 	levelUpText.setCharacterSize(80);
-	levelUpText.setFillColor(Color::Green);
+	levelUpText.setFillColor(Color::White);
+	levelUpText.setOutlineColor(sf::Color::Black);
+	levelUpText.setOutlineThickness(3);
 	levelUpText.setPosition(150, 250); //ตำแหน่งตัวอักษร
 	std::stringstream levelUpStream;
 	levelUpStream <<
 		"   |G| --> + Rate of fire" <<
 		"\n   |H| --> + Clip size(next reload)" <<
-		"\n   |J| --> + Max health" <<
-		"\n   |B| --> + Run speed" <<
-		"\n   |N| --> + Health pickups" <<
-		"\n   |M| --> + Ammo pickups";
+		"\n   |J| --> + Max health 10 o/o" <<
+		"\n   |B| --> + Run speed 10 o/o" <<
+		"\n   |N| --> + Health pickups 5 o/o" <<
+		"\n   |M| --> + Ammo pickups 5 o/o";
 	levelUpText.setString(levelUpStream.str());
 	
+
 	
 
 	// Ammo
 	Text ammoText;
 	ammoText.setFont(font);
 	ammoText.setCharacterSize(75);
-	ammoText.setFillColor(Color::White);
+	ammoText.setFillColor(Color::Yellow);
+	ammoText.setOutlineColor(sf::Color::Black);
+	ammoText.setOutlineThickness(2);
 	ammoText.setPosition(1750, 980);
+
 
 	// Score
 	Text scoreText;
 	scoreText.setFont(font);
 	scoreText.setCharacterSize(55);
 	scoreText.setFillColor(Color::White);
+	scoreText.setOutlineColor(sf::Color::Green);
+	scoreText.setOutlineThickness(1);
 	scoreText.setPosition(720, 5);
 
 	// Last Score
@@ -186,6 +331,8 @@ int main()
 	lastScoreText.setFont(font);
 	lastScoreText.setCharacterSize(55);
 	lastScoreText.setFillColor(Color::White);
+	lastScoreText.setOutlineColor(sf::Color::Green);
+	lastScoreText.setOutlineThickness(1);
 	lastScoreText.setPosition(20, 100);
 	
 
@@ -214,7 +361,7 @@ int main()
 		inputFile4 >> hiScore4;
 		inputFile4.close();
 	}
-	std::ifstream inputFile5("gamedata/Score/scores5.txt");
+	std::ifstream inputFile5("gamedata/Score/scores5.txt");         ////////////////////
 	if (inputFile5.is_open())
 	{
 		inputFile5 >> hiScore5;
@@ -282,6 +429,8 @@ int main()
 	sf::Text text(sentence, font, 80);
 	text.setPosition(825, 525);
 	text.setFillColor(Color::Red);
+	text.setOutlineColor(sf::Color::White);
+	text.setOutlineThickness(1);
 	text.setStyle(sf::Text::Underlined);
 
 	///////////////////////////////////////////
@@ -290,6 +439,8 @@ int main()
 	EnternameText.setCharacterSize(55);
 	EnternameText.setFillColor(Color::White);
 	EnternameText.setPosition(460, 545);
+	EnternameText.setOutlineColor(sf::Color::Red);
+	EnternameText.setOutlineThickness(0.5);
 	std::stringstream SsEnternameTexts;
 	SsEnternameTexts << "Enter your name :"; //ตอนหน้าfrist
 	EnternameText.setString(SsEnternameTexts.str());
@@ -299,15 +450,17 @@ int main()
 	Text listScoreText;
 	listScoreText.setFont(font);
 	listScoreText.setCharacterSize(70);
-	listScoreText.setFillColor(Color::White);
-	listScoreText.setPosition(650, 250);
+	listScoreText.setFillColor(Color::Green);
+	listScoreText.setOutlineColor(sf::Color::White);
+	listScoreText.setOutlineThickness(1);
+	listScoreText.setPosition(650, 395);
 	std::stringstream listScoreStream;
 	listScoreStream <<
 		"   1. " << name1 <<"   score : "<< hiScore <<
 		"\n\n   2. " << name2 << "   score : " << hiScore2 <<
 		"\n\n   3. " << name3 << "   score : " << hiScore3 <<
 		"\n\n   4. " << name4 << "   score : " << hiScore4 <<
-		"\n\n  5. " << name5 << "    score : " << hiScore5;
+		"\n\n   5. " << name5 << "    score : " << hiScore5;
 	listScoreText.setString(listScoreStream.str());
 	
 
@@ -316,6 +469,8 @@ int main()
 	hiScoreText.setFont(font);
 	hiScoreText.setCharacterSize(55);
 	hiScoreText.setFillColor(Color::Green);
+	hiScoreText.setOutlineColor(sf::Color::Red);
+	hiScoreText.setOutlineThickness(1);
 	hiScoreText.setPosition(20, 5);
 	std::stringstream s;
 	s << "Hight Score:" << hiScore; //ตอนหน้าhome
@@ -326,7 +481,9 @@ int main()
 	nameShowText.setFont(font);
 	nameShowText.setCharacterSize(55);
 	nameShowText.setFillColor(Color::Red);
-	nameShowText.setPosition(520, 5);
+	nameShowText.setOutlineColor(sf::Color::White);
+	nameShowText.setOutlineThickness(1);
+	nameShowText.setPosition(485, 5);
 	std::stringstream sNameShow;
 	
 	
@@ -335,6 +492,8 @@ int main()
 	zombiesRemainingText.setFont(font);
 	zombiesRemainingText.setCharacterSize(55);
 	zombiesRemainingText.setFillColor(Color::White);
+	zombiesRemainingText.setOutlineColor(sf::Color::Red);
+	zombiesRemainingText.setOutlineThickness(1);
 	zombiesRemainingText.setPosition(175, 980);
 	zombiesRemainingText.setString("");
 	
@@ -344,12 +503,16 @@ int main()
 	waveNumberText.setFont(font);
 	waveNumberText.setCharacterSize(55);
 	waveNumberText.setFillColor(Color::White);
+	waveNumberText.setOutlineColor(sf::Color::Red);
+	waveNumberText.setOutlineThickness(1);
 	waveNumberText.setPosition(25, 980);
 	waveNumberText.setString("");
 
 	// แถบเลือด
 	RectangleShape healthBar;
 	healthBar.setFillColor(Color::Red);
+	healthBar.setOutlineColor(sf::Color::Black);
+	healthBar.setOutlineThickness(5);
 	healthBar.setPosition(800, 980);
 
 	
@@ -384,7 +547,7 @@ int main()
 
 	// PlayerDead
 	SoundBuffer PlayerDeadBuffer;
-	PlayerDeadBuffer.loadFromFile("sound/fileSound/MisFail .wav");
+	PlayerDeadBuffer.loadFromFile("sound/fileSound/misfail.wav");
 	Sound PlayerDeadSound;
 	PlayerDeadSound.setBuffer(PlayerDeadBuffer);
 
@@ -393,6 +556,12 @@ int main()
 	ScoreBoardBuffer.loadFromFile("sound/fileSound/seeScore.wav");
 	Sound ScoreBoardSound;
 	ScoreBoardSound.setBuffer(ScoreBoardBuffer);
+
+	// stopSound
+	SoundBuffer stopSoundBuffer;
+	stopSoundBuffer.loadFromFile("sound/fileSound/racche.wav");
+	Sound EstopSound;
+	EstopSound.setBuffer(stopSoundBuffer);
 
 	// ZombieDead
 	SoundBuffer ZombieDeadBuffer;
@@ -409,32 +578,32 @@ int main()
 
 	// เสียงตอนยิงโดน
 	SoundBuffer splatBu;
-	splatBu.loadFromFile("sound/fileSound/bloodZom.wav");
-	sf::Sound splat;
+	splatBu.loadFromFile("sound/fileSound/bloodhitting.wav");
+	Sound splat;
 	splat.setBuffer(splatBu);
-	
+
 	
 	SoundBuffer splatBuf;
-	splatBuf.loadFromFile("sound/fileSound/bloodZomDie.wav");
-	sf::Sound splat1;
+	splatBuf.loadFromFile("sound/fileSound/littlerobot.wav");
+	Sound splat1;
 	splat1.setBuffer(splatBuf);
 	
 
 	SoundBuffer splatBuffer2;
 	splatBuffer2.loadFromFile("sound/fileSound/soundZombie.wav");
-	sf::Sound splat2;
+	Sound splat2;
 	splat2.setBuffer(splatBuffer2);
 	splat2.setVolume(40.f);
 
 	SoundBuffer splatBuffer3;
 	splatBuffer3.loadFromFile("sound/fileSound/soundZombie2.wav");
-	sf::Sound splat3;
+	Sound splat3;
 	splat3.setBuffer(splatBuffer3);
 	splat3.setVolume(40.f);
 
 	SoundBuffer splatBuffer4;
 	splatBuffer4.loadFromFile("sound/fileSound/zombieDead.wav");
-	sf::Sound splat4;
+	Sound splat4;
 	splat4.setBuffer(splatBuffer4);
 	splat4.setVolume(40.f);
 	// เสียงตอนยิง
@@ -484,7 +653,7 @@ int main()
 	musicInGame.setLoop(true);
 	musicInGame.getLoop();
 	musicInGame.stop();
-
+	
 	
  ///////////////////////////////////////
 
@@ -507,7 +676,7 @@ int main()
 		}
 		
 		
-		//std::cout << "State : " <<  (int)state << std::endl;
+		
 		// เริ่มมมมมมมมมมมมมมมมมม
 
 		// player กับ เกม
@@ -515,6 +684,7 @@ int main()
 		sf :: Event event;
 		while (window.pollEvent(event))
 		{
+			
 			
 			if (state == State::FRIST_GAME) {
 				if (event.type == sf::Event::TextEntered)
@@ -576,6 +746,33 @@ int main()
 
 			if (event.type == Event::KeyPressed)
 			{
+				//before_Over
+				if (event.key.code == Keyboard::C &&
+					state == State::BEFORE_OVER)
+				{
+					ScoreBoardSound.play();
+					state = State::GAME_OVER;
+					continue;
+
+				}
+				// howToPlay ///
+					if (event.key.code == Keyboard::O &&
+						state == State::GAME_OVER)
+					{
+						ScoreBoardSound.play();
+						state = State::HOW_TO_PLAY;
+						continue;
+
+					}
+				// สกอร์ ///
+				if (event.key.code == Keyboard::O &&
+					state == State::HOW_TO_PLAY)
+				{
+					ScoreBoardSound.play();
+					state = State::GAME_OVER;
+					clock.restart();
+				}
+
 				// สกอร์ ///
 				if (event.key.code == Keyboard::U &&
 					state == State::GAME_OVER)
@@ -597,6 +794,7 @@ int main()
 				if (event.key.code == Keyboard::P &&
 					state == State::PLAYING)
 				{
+					EstopSound.play();
 					musicInGame.pause();
 					musicHomeGame.play();
 					state = State::PAUSED;
@@ -644,7 +842,7 @@ int main()
 					// Reload
 					if (event.key.code == Keyboard::R) {
 						if (gameTimeTotal.asMilliseconds()
-							- lastPressed.asMilliseconds() > 800 / 1 && bulletsInClip >= 0) {
+							- lastPressed.asMilliseconds() > 1050) {
 							lastPressed = gameTimeTotal;
 							{
 								if (bulletsSpare >= reClipSize)
@@ -793,13 +991,13 @@ int main()
 				player.upgradeSpeed();
 				state = State::PLAYING;
 			}
-			//เพิ่มการสุ่มไอเท็มเลือด
+			//เพิ่มค่าไอเท็มเลือด
 			if ((event.key.code == Keyboard::N) && (state == State::LEVELING_UP))
 			{
 				healthPickup.upgrade();
 				state = State::PLAYING;
 			}
-			//เพิ่มการสุ่มกระสุน
+			//เพิ่มค่าสุ่มกระสุน
 			if ((event.key.code == Keyboard::M) && (state == State::LEVELING_UP))
 			{
 				ammoPickup.upgrade();
@@ -923,6 +1121,8 @@ int main()
 
 							//  kill 
 							if (zombies[j].hit()) {
+
+								
 								
 								ZombieDead.play();                        ////////////////////////////////////////////////////////////////////////////////////////////////
 								score += 10;
@@ -935,46 +1135,45 @@ int main()
 
 								
 							}
-							/*srand(time(NULL));
-							unsigned short int index = random_between(0, 4);
-							std::cout << index << endl;*/
-							if (/*(index == 0) &&*/ (j == 0))
+							
+							std::cout << j << endl;
+							if ( ((j%3) == 0)||j==0)
 							{
+								
 								std::cout << "0" << endl;
-								/*srand(time(NULL));
-								index = random_between(0, 4);*/
+								
                               splat.play(); 
 							  continue;
 							}
-							else if (/*(index == 1) &&*/ (j == 1))
+							else if ( ((j % 5) == 0) || j == 1)
 							{
+								
 								std::cout << "1" << endl;
-								/*srand(time(NULL));
-								index = random_between(0, 4);*/
+								
 								splat1.play();
 								continue;
 							}
-							else if (/*(index == 2) &&*/ (j == 2))
+							else if ( ((j % 7) == 0) || j == 2)
 							{
+								lastPressed = gameTimeTotal;
 								std::cout << "2" << endl;
-								/*srand(time(NULL));
-								index = random_between(0, 4);*/
+								
 								splat2.play();
 								continue;
 							}
-							else if (/*(index == 3) && */(j==3))
+							else if (((j % 11) == 0) || j==3)
 							{
+								lastPressed = gameTimeTotal;
 								std::cout << "3" << endl;
-								/*srand(time(NULL));
-								index = random_between(0, 4);*/
+								
 								splat3.play();
 								continue;
 							}
-							else if (j == 4)
+							else if ( j !=0)
 							{
+								lastPressed = gameTimeTotal;
 								std::cout << "4" << endl;
-								/*srand(time(NULL));
-								index = random_between(0, 4);*/
+								
 								splat4.play();
 								continue;
 							}
@@ -988,8 +1187,11 @@ int main()
 
 				}
 				if (numZombiesAlive == 0) {
-
+					
+					
 					levelUpSound.play();
+				
+
 					if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&& (framesSinceLastHUDUpdate == 0))
 					{
 						state = State::LEVELING_UP;
@@ -1010,11 +1212,14 @@ int main()
 				(zombies[i].getPosition()) && zombies[i].isAlive())
 				{
 
-					if (player.hit(gameTimeTotal))
+					if (player.hit(gameTimeTotal)&& (gameTimeTotal.asMilliseconds()
+						- lastPressed.asMilliseconds() > 500))
 					{
-						// More here later
+						lastPressed = gameTimeTotal;
+							// More here later
 						hit.play();
 					}
+						
 
 					if (player.getHealth() <= 0)
 					{      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1026,21 +1231,25 @@ int main()
 						if (score > hiScore5) {
 							if ((score > hiScore5) && (score <= hiScore4)) {
 								hiScore5 = score;
+								
 								fstream outputFile5;
-								outputFile5.open("gamedata/Score/scores5.txt");
+								outputFile5.open("gamedata/Score/scores5.txt", ios::out);
 								if (outputFile5.is_open()) {
-									std::cout << "file is Open5" << std::endl;
-									outputFile5 << hiScore5;
+									std::cout << "file is Open scores5" << std::endl;
+
+									outputFile5 << hiScore5 << endl;
+									
+		
 									outputFile5.close();
 								}
-								
 
-								
+
+
 								std::fstream file;
 								file.open("gamedata/Name/name.txt");
 								file >> name5;
 								file.close();
-								
+
 								std::cout << nameString << endl;
 
 								std::ofstream fileName5;
@@ -1048,9 +1257,9 @@ int main()
 								if (fileName5.is_open()) {
 									std::cout << "file is fileName5 Open" << std::endl;
 									fileName5 << nameString;
-								    fileName5.close();
+									fileName5.close();
 								}
-								
+
 
 								ssListScore <<
 									"   1. " << name1 << "   score : " << hiScore <<
@@ -1060,7 +1269,7 @@ int main()
 									"\n\n  5. " << name5 << "    score : " << hiScore5;
 								listScoreText.setString(ssListScore.str());                                   ///////////////////////////////////////////////////////////
 
-								state = State::GAME_OVER;
+								state = State::BEFORE_OVER;
 
 							}
 							if ((score > hiScore5) && (score >= hiScore4) && (score < hiScore3)) {
@@ -1070,16 +1279,16 @@ int main()
 								fstream outputFile4;
 								outputFile4.open("gamedata/Score/scores4.txt");
 								if (outputFile4.is_open()) {
-									std::cout << "file is Open4" << std::endl;
+									std::cout << "file is Openscores4" << std::endl;
 									outputFile4 << hiScore4;
 									outputFile4.close();
 								}
-								
+
 								std::fstream file;
 								file.open("gamedata/Name/name.txt");
 								file >> name4;
 								file.close();
-								
+
 								std::cout << nameString << endl;
 
 								std::ofstream fileName4;
@@ -1098,11 +1307,11 @@ int main()
 									"\n\n   4. " << name4 << "   score : " << hiScore4 <<
 									"\n\n  5. " << name5 << "    score : " << hiScore5;
 								listScoreText.setString(ssListScore.str());
-								
 
 
 
-								state = State::GAME_OVER;
+
+								state = State::BEFORE_OVER;
 
 							}
 							if ((score > hiScore5) && (score > hiScore4) && (score >= hiScore3) && (score < hiScore2)) {
@@ -1114,11 +1323,11 @@ int main()
 								fstream outputFile3;
 								outputFile3.open("gamedata/Score/scores3.txt");
 								if (outputFile3.is_open()) {
-									std::cout << "file is Open3" << std::endl;
+									std::cout << "file is Openscores3" << std::endl;
 									outputFile3 << hiScore3;
 									outputFile3.close();
 								}
-								
+
 
 								std::fstream file;
 								file.open("gamedata/Name/name.txt");
@@ -1147,9 +1356,9 @@ int main()
 
 
 
-								state = State::GAME_OVER;
+								state = State::BEFORE_OVER;
 
-																						
+
 							}
 							if ((score > hiScore5) && (score > hiScore4) && (score > hiScore3) && (score >= hiScore2) && (score < hiScore)) {
 								h3 = hiScore2;
@@ -1162,11 +1371,11 @@ int main()
 								fstream outputFile2;
 								outputFile2.open("gamedata/Score/scores2.txt");
 								if (outputFile2.is_open()) {
-									std::cout << "file is Open2" << std::endl;
+									std::cout << "file is Openscores2" << std::endl;
 									outputFile2 << hiScore2;
 									outputFile2.close();
 								}
-								
+
 								std::fstream file;
 								file.open("gamedata/Name/name.txt");
 								file >> name2;
@@ -1194,27 +1403,27 @@ int main()
 
 
 
-								state = State::GAME_OVER;
-								
+								state = State::BEFORE_OVER;
 
 
-								
+
+
 							}
 						}
 						else {
-							
-							ssListScore <<
-								"   1. " << name1 << "   score : " << hiScore <<
-								"\n\n   2. " << name2 << "   score : " << hiScore2 <<
-								"\n\n   3. " << name3 << "   score : " << hiScore3 <<
-								"\n\n   4. " << name4 << "   score : " << hiScore4 <<
-								"\n\n  5. " << name5 << "    score : " << hiScore5;
-							listScoreText.setString(ssListScore.str());
 
-							state = State::GAME_OVER;
-							musicInGame.stop();
-							musicHomeGame.play();
-						}
+						/*ssListScore <<
+							"   1. " << name1 << "   score : " << hiScore <<
+							"\n\n   2. " << name2 << "   score : " << hiScore2 <<
+							"\n\n   3. " << name3 << "   score : " << hiScore3 <<
+							"\n\n   4. " << name4 << "   score : " << hiScore4 <<
+							"\n\n  5. " << name5 << "    score : " << hiScore5;
+						listScoreText.setString(ssListScore.str());*/
+
+						state = State::BEFORE_OVER;
+						musicInGame.stop();
+						musicHomeGame.play();
+					}
 					}
 				}
 			}// /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1270,6 +1479,13 @@ int main()
 				// แสดง score
 				ssScore << "Score:" << score;
 				scoreText.setString(ssScore.str());
+				//wave
+				ssWave << "Wave: " << wave;
+				waveNumberText.setString(ssWave.str());
+
+				//zombie
+				ssZombiesAlive << "ZombieAlive: " << numZombiesAlive;
+				zombiesRemainingText.setString(ssZombiesAlive.str());
 
 				// แสดง lastscore
 				sslastScore << "Last Score:" << lastScore;
@@ -1351,6 +1567,9 @@ int main()
 			window.draw(waveNumberText);
 			window.draw(zombiesRemainingText);
 			window.draw(nameShowText);
+			//window.draw(spriteLogo);
+			//window.draw(tong);
+
 		}
 		
 		if (state == State::LEVELING_UP)
@@ -1364,11 +1583,13 @@ int main()
 
 			window.draw(spriteLevelUp);
 			window.draw(levelUpText);
-
+			window.draw(waveNumberText);
 			window.draw(scoreText);
 			window.draw(hiScoreText);
 			window.draw(lastScoreText);
 			window.draw(nameShowText);
+			//window.draw(tong);
+
 			
 			
 			
@@ -1381,7 +1602,10 @@ int main()
 				BRUHSound.play();
 				window.close();
 			}
+			window.draw(spriteLogo);
 			window.draw(pausedText);
+			window.draw(tong);
+
 
 			
 		}
@@ -1398,33 +1622,79 @@ int main()
 
 			
 			
-		
+			spriteLogo.setPosition(1150, 15);
 			window.draw(spriteGameOver);
 			window.draw(gameOverText);
 			///////////////////////////////////////////////////////////////////////////////////////////
-			//window.draw(listScoreText);
+		
 			/////////////////////////////////////////////////////////////////////////
 			window.draw(scoreText);
 			window.draw(hiScoreText);
 			window.draw(lastScoreText);
 			window.draw(nameShowText);
+			window.draw(howToPlayText);
+			window.draw(viewScoreBoardText);
+			window.draw(escText);
+			window.draw(spriteLogo);
+			window.draw(tong);
 
+
+			
 		}
 		
 		if (state == State::FRIST_GAME) {
+			window.draw(spriteFrist);
 			window.draw(text);
 			window.draw(EnternameText);
-			//window.clear();
+			window.draw(welcomeText);
+			window.draw(spriteLogo);
+			window.draw(tong);
+
+			
+			
+			
 		}
 		if (state == State::HIGH_SCORE)
 		{
+			window.draw(spriteScoreBoard);
 			window.draw(listScoreText);
+			window.draw(SCOREBOARDText);
+			window.draw(spriteLogo);
+			window.draw(tong);
+
 
 
 			
+		}
+		if (state == State::BEFORE_OVER)
+		{
+			
+			window.draw(spriteLogo);
+			window.draw(tong);
+			window.draw(nameShowText);
+
+			window.draw(hiScoreText);
+			window.draw(scoreText);
+			window.draw(beforeGameOverText);
 
 			
+
+
+
+
+		}
+		if (state == State::HOW_TO_PLAY)
+		{
+			window.draw(Howplay);
+			window.draw(spriteWASD);
+			window.draw(spriteR);
+			window.draw(HowtoplayInGame); 
+			window.draw(HOWTOPLAYText);
+			window.draw(spriteLogo);
+			window.draw(tong);
+		
 			
+
 
 		}
 		

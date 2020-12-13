@@ -7,7 +7,9 @@ Bullet::Bullet()
 {
 	//ขนาดกระสุน
 	m_BulletShape.setSize(sf::Vector2f(5, 5));
-	m_BulletShape.setFillColor(sf::Color::Yellow);
+	m_BulletShape.setFillColor(sf::Color::Magenta);
+	m_BulletShape.setOutlineColor(sf::Color::Black);
+	m_BulletShape.setOutlineThickness(1);
 }
 
 void Bullet::shoot(float startX, float startY,
