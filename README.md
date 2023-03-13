@@ -6,10 +6,10 @@ DEMO GAME
  
 -----Info Graphics-----
 
-<img src="[https://i.imgur.com/FSQFo16.png](https://drive.google.com/file/d/161_iV7BJJQaFHzYpJ2vqZ_kvgrWm3UGo)">
+<img src="https://drive.google.com/file/d/161_iV7BJJQaFHzYpJ2vqZ_kvgrWm3UGo">
 
 
-<img src="[https://i.imgur.com/FSQFo16.png](https://drive.google.com/file/d/1kiYm_ODQWTwHPP5F0tDKsaYCszP8_qXJ)">
+<img src="https://drive.google.com/file/d/1kiYm_ODQWTwHPP5F0tDKsaYCszP8_qXJ">
 
 
 
